@@ -10,7 +10,7 @@ const LeftSidebar = () => {
                 <NavLink
                     to='/'
                     className='side-nav-link'
-                    activeClass='active'
+                    activeclass='active'
                 >
                     <p>Home</p>
                 </NavLink>
@@ -20,7 +20,7 @@ const LeftSidebar = () => {
                     <NavLink
                         to='/questions'
                         className='side-nav-link'
-                        activeClass='active'
+                        activeclass='active'
                         style={{ paddingLeft: "14px" }}
                     >
                         <img src={Globe} alt="Globe" className='globe-icon' />
@@ -29,7 +29,7 @@ const LeftSidebar = () => {
                     <NavLink
                         to="/tags"
                         className='side-nav-link'
-                        activeClass='active'
+                        activeclass='active'
                         style={{ paddingLeft: "40px" }}
                     >
                         <p>Tags</p>
@@ -37,7 +37,7 @@ const LeftSidebar = () => {
                     <NavLink
                         to="/tags"
                         className='side-nav-link'
-                        activeClass='active'
+                        activeclass='active'
                         style={{ paddingLeft: "40px" }}
                     >
                         <p>Users</p>
