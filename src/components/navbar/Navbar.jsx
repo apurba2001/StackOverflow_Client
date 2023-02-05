@@ -11,9 +11,10 @@ const Navbar = () => {
 
     var user = useSelector((state) => state.currectUserReducer)
     const dispatch = useDispatch() 
+
     useEffect(()=>{
         dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
-    },[])
+    }, [dispatch])
 
     return (
         <nav className='main-nav'>

@@ -1,4 +1,4 @@
-const currectUserReducer = (state = null, action) =>{
+const currectUserReducer = (state = null , action) =>{
     switch(action.type){
         case 'FETCH_CURRENT_USER':
             return action.payload
