@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom'
 import "./Navbar.css"
 import Avater from "../avater/Avater"
-
+import { useSelector, useDispatch } from 'react-redux'
 import navlogo from "../../assets/logo-stackoverflow.png"
 import search from "../../assets/search.svg"
+import { useEffect } from 'react'
+import { setCurrentUser } from '../../actions/currentUser'
 
 const Navbar = () => {
 
-    var user = null
+    var user = useSelector((state) => state.currectUserReducer)
+    const dispatch = useDispatch() 
+    useEffect(()=>{
+        dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
+    },[])
 
     return (
         <nav className='main-nav'>
@@ -26,8 +32,8 @@ const Navbar = () => {
                     !user ?
                         <Link to="/auth" className="nav-item nav-links" >Login</Link> :
                         <>
-                            <Link to="/user" style={{textDecoration: "none"}}>
-                                <Avater 
+                            <Link to="/user" style={{ textDecoration: "none" }}>
+                                <Avater
                                     backgroundColor="green"
                                     borderRadius="50%"
                                     py="7"
