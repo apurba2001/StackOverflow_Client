@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom"
-
+import { useSelector } from 'react-redux'
 import down from "../../assets/down.png"
 import up from "../../assets/up.png"
 import './Questions.css'
@@ -7,63 +7,9 @@ import Avater from "../../components/avater/Avater"
 import DisplayAnswers from "./DisplayAnswers"
 
 const QuestionDetails = () => {
-    var questionsList = [{
-        _id:"1",
-        upVotes: 2,
-        downVotes: 3,
-        noOfAnswers: 2,
-        votes: 2,
-        questionTitle: "What is a finction?",
-        questionBody: "It ment to be",
-        questionTags: ['java', 'nodejs', 'react.js', 'mongodb', 'express.js'],
-        userPosted: 'Mono',
-        askedOn: 'Jan 1',
-        userId: 3,
-        answer: [{
-            answerBody: 'Answer',
-            userAnswred: 'Kumar',
-            answredOn: 'Jan 2',
-            userId: 2
-        }]
-    },
-    {
-        _id: "2",
-        noOfAnswers: 2,
-        votes: 2,
-        upVotes: 2,
-        downVotes: 3,
-        userId: 3,
-        questionTitle: "What is a finction?",
-        questionBody: "It ment to be",
-        questionTags: ['java', 'nodejs', 'react.js', 'mongodb', 'express.js'],
-        userPosted: 'Mono',
-        askedOn: 'Jan 1',
-        answer: [{
-            answerBody: 'Answer',
-            userAnswred: 'Kumar',
-            answredOn: 'Jan 2',
-            userId: 2
-        }]
-    },
-    {
-        _id: "3",
-        noOfAnswers: 2,
-        votes: 2,
-        upVotes: 2,
-        downVotes: 3,
-        questionTitle: "What is a finction?",
-        questionBody: "It ment to be",
-        questionTags: ['java', 'nodejs', 'react.js', 'mongodb', 'express.js'],
-        userPosted: 'Mono',
-        askedOn: 'Jan 1',
-        userId: 3,
-        answer: [{
-            answerBody: 'Answer',
-            userAnswred: 'Kumar',
-            answredOn: 'Jan 2',
-            userId: 2
-        }]
-    }]
+
+    var questionsList = useSelector(state => state.questionReducer)
+    
     const { id } = useParams()
     return (
         <div className="question-details-page">
@@ -72,14 +18,14 @@ const QuestionDetails = () => {
                     <h1>Loding...</h1> :
                     <>
                         {
-                            questionsList.filter(question => question._id === id).map((question) => (
+                            questionsList.data.filter(question => question._id === id).map((question) => (
                                 <div key={question._id}>
                                     <section className="question-details-container">
                                         <h1 style={{ fontSize: '21px', paddingBottom: "10px" }}>{question.questionTitle}</h1>
                                         <div className="question-details-container-2">
                                             <div className="question-votes">
                                                 <img src={up} alt="" width='18' />
-                                                <p >{question.upVotes - question.downVotes}</p>
+                                                <p >{question.upVote.length - question.downVote.length}</p>
                                                 <img src={down} alt="" width='18' />
                                             </div>
                                             <div style={{ width: "100%" }}>

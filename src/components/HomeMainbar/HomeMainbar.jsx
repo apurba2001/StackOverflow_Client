@@ -1,63 +1,11 @@
 import './HomeMainbar.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import QuestionsList from './QuestionsList'
-
+import { useSelector } from 'react-redux'
+ 
 const HomeMainbar = () => {
 
-    var questionsList = [{
-        id: 1,
-        upVotes: 2,
-        downVotes: 3,
-        noOfAnswers: 2,
-        votes: 2,
-        questionTitle: "What is a finction?",
-        questionBody: "It ment to be",
-        questionTags: ['javs', 'nodejs', 'react.js', 'mongodb', 'express.js'],
-        userPosted: 'Mono',
-        askedOn: 'Jan 1',
-        answer: [{
-            answerBody: 'Answer',
-            userAnswred: 'Kumar',
-            answredOn: 'Jan 2',
-            userId: 2
-        }]
-    },
-    {
-        id: 2,
-        noOfAnswers: 2,
-        votes: 2,
-        upVotes: 2,
-        downVotes: 3,
-        questionTitle: "What is a finction?",
-        questionBody: "It ment to be",
-        questionTags: ['javs', 'nodejs', 'react.js', 'mongodb', 'express.js'],
-        userPosted: 'Mono',
-        askedOn: 'Jan 1',
-        answer: [{
-            answerBody: 'Answer',
-            userAnswred: 'Kumar',
-            answredOn: 'Jan 2',
-            userId: 2
-        }]
-    },
-    {
-        id: 3,
-        noOfAnswers: 2,
-        votes: 2,
-        upVotes: 2,
-        downVotes: 3,
-        questionTitle: "What is a finction?",
-        questionBody: "It ment to be",
-        questionTags: ['javs', 'nodejs', 'react.js', 'mongodb', 'express.js'],
-        userPosted: 'Mono',
-        askedOn: 'Jan 1',
-        answer: [{
-            answerBody: 'Answer',
-            userAnswred: 'Kumar',
-            answredOn: 'Jan 2',
-            userId: 2
-        }]
-    }]
+    var questionsList = useSelector(state => state.questionReducer)
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -84,11 +32,11 @@ const HomeMainbar = () => {
             </div>
             <div >
                 {
-                    !questionsList ?
+                    !questionsList.data ?
                         <h1>Loding...</h1> :
                         <>
-                            <p style={{ marginBottom: "10px", fontWeight: 600 }}>{questionsList.length} questions</p>
-                            <QuestionsList questionsList={questionsList} />
+                            <p style={{ marginBottom: "10px", fontWeight: 600 }}>{questionsList.data.length} questions</p>
+                            <QuestionsList questionsList={questionsList.data} />
                         </>
                 }
             </div>
