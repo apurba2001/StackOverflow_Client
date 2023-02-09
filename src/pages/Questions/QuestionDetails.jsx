@@ -1,16 +1,37 @@
-import { Link, useParams } from "react-router-dom"
-import { useSelector } from 'react-redux'
+import { Link, useParams, useNavigate } from "react-router-dom"
+import { useSelector, useDispatch } from 'react-redux'
 import down from "../../assets/down.png"
 import up from "../../assets/up.png"
 import './Questions.css'
 import Avater from "../../components/avater/Avater"
 import DisplayAnswers from "./DisplayAnswers"
+import { useState } from "react"
+import { postAnswer } from "../../actions/question"
 
 const QuestionDetails = () => {
 
     var questionsList = useSelector(state => state.questionReducer)
     
     const { id } = useParams()
+    const navigate = useNavigate()
+    const user = useSelector((state) => state.currectUserReducer)
+    const [answer, setAnswer] = useState('')
+    const dispatch = useDispatch()
+
+    const handlePostAns = (e, answerLen) =>{
+        console.log('user->',user)
+        e.preventDefault()
+        if(!user){
+            alert('Login or signup to answer a question')
+            navigate('/auth')
+        }else{
+            if(!answer){
+                alert('Enter an answer before submitting')
+            }else{
+                dispatch(postAnswer({ id, answerBody: answer, userAnswred: user?._doc?.name, userId: user?._doc?._id }))
+            }
+        }
+    }
     return (
         <div className="question-details-page">
             {
@@ -18,7 +39,7 @@ const QuestionDetails = () => {
                     <h1>Loding...</h1> :
                     <>
                         {
-                            questionsList.data.filter(question => question._id === id).map((question) => (
+                            questionsList?.data?.filter(question => question._id === id).map((question) => (
                                 <div key={question._id}>
                                     <section className="question-details-container">
                                         <h1 style={{ fontSize: '21px', paddingBottom: "10px" }}>{question.questionTitle}</h1>
@@ -48,10 +69,9 @@ const QuestionDetails = () => {
                                                             <Avater
 
                                                                 backgroundColor="orange"
-                                                                px='8'
-                                                                py='5'
                                                                 borderRadius="3px"
-                                                                textAlign="center"
+                                                                type='nav'
+                                                                fontSize='20px'
 
                                                             >
                                                                 {question.userPosted.charAt(0).toUpperCase()}
@@ -64,17 +84,17 @@ const QuestionDetails = () => {
                                         </div>
                                     </section>
                                     {
-                                        question.noOfAnswers && (
+                                        question.answer.length && (
                                             <section>
-                                                <h3 style={{ fontSize: "15px", margin: "10px 0px" }}>{question.noOfAnswers} answers</h3>
+                                                <h3 style={{ fontSize: "15px", margin: "10px 0px" }}>{question.answer.length} Answer{question.answer.length === 1 ? '' : 's'}</h3>
                                                 <DisplayAnswers key={question._id} question={question} />
                                             </section>
                                         )
                                     }
                                     <section className="post-ans-container">
                                         <h3 style={{ fontSize: "15px", padding: "10px" }}>Your Answer</h3>
-                                        <form>
-                                            <textarea name="" id="" cols="30" rows="10"></textarea><br />
+                                        <form onSubmit={(e) => handlePostAns(e)}>
+                                            <textarea name="" id="" cols="30" rows="10" onChange={(e)=> setAnswer(e.target.value)}></textarea><br />
                                             <input type="submit" className="post-ans-btn" value='Post Your Answer' />
                                         </form>
                                         <p>

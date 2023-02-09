@@ -1,12 +1,22 @@
-const Avater = ({ children, py, px, color, backgroundColor, borderRadius, fontSize, textAlign }) => {
+const Avater = ({ children, py, px, color, backgroundColor, borderRadius, fontSize, textAlign, type }) => {
+    let size = ''
+    if(type === 'nav'){
+        size = '30px'
+    } else if (type === 'question'){
+        
+    }
+
     const style = {
         color: "white",
         backgroundColor,
-        padding: `${py}px ${px}px`,
         borderRadius,
         fontSize,
-        textAlign,
-
+        width: size,
+        height: size,
+        display: "flex",
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: "0px"
     }
     return (
         <div style={style}>

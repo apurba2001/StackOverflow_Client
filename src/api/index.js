@@ -7,3 +7,5 @@ export const signup = (authData) => API.post('/user/signup', authData)
 
 export const postQuestion = (questionData) => API.post('/questions/ask', questionData)
 export const getQuestions = (questionsData) => API.get('/questions/get', questionsData)
+
+export const postAnswer = (id, answerBody, userAnswred, userId) => API.patch(`/answer/post/${id}`, { answerBody, userAnswred, userId })

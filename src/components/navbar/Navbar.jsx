@@ -37,10 +37,10 @@ const Navbar = () => {
                                 <Avater
                                     backgroundColor="green"
                                     borderRadius="50%"
-                                    py="7"
-                                    px="9.5"
                                     textAlign="center"
-                                >M</Avater>
+                                    type='nav'
+                                    fontSize='20px'
+                                >{user?._doc?.name.charAt(0).toUpperCase()}</Avater>
                             </Link>
                             <Link ><button className="nav-item nav-links">Logout</button></Link>
                         </>

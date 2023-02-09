@@ -8,7 +8,7 @@ const DisplayAnswers = ({ question }) => {
         <div>
             {
                 question.answer.map((ans) => (
-                    <div className="display-ans" key={ans.userId}>
+                    <div className="display-ans" key={ans._id}>
                         <p>{ans.answerBody}</p>
                         <div className="question-actions-user">
                             <div style={{display: "flex"}}>
@@ -21,12 +21,11 @@ const DisplayAnswers = ({ question }) => {
                                     <Link to={`/user/${question.userId}`} className="user-link" style={{ color: "#0086d8" }} >
                                         <Avater
                                             backgroundColor="green"
-                                            px='9'
-                                            py='5'
                                             borderRadius="3px"
-                                            textAlign="center"
+                                            type='nav'
+                                            fontSize='20px'
                                         >
-                                            {ans.userAnswred.charAt(0).toUpperCase()}
+                                            {ans?.userAnswred?.charAt(0).toUpperCase()}
                                         </Avater>
                                         <div >
                                             {ans.userAnswred}
