@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom"
+import moment from 'moment'
+
 import Avater from "../../components/avater/Avater"
 import './Questions.css'
 
-const DisplayAnswers = ({ question }) => {
+const DisplayAnswers = ({ question, handleShare }) => {
 
     return (
         <div>
@@ -12,12 +14,12 @@ const DisplayAnswers = ({ question }) => {
                         <p>{ans.answerBody}</p>
                         <div className="question-actions-user">
                             <div style={{display: "flex"}}>
-                                <button type="button" >Share</button>
+                                <button type="button" onClick={handleShare}>Share</button>
                                 <button type="button" >Delete</button>
                             </div>
                             <div className="answred-page">
                                 <div>
-                                    <p style={{ margin: "5px 0px" }}>answered {ans.answredOn}</p>
+                                    <p style={{ margin: "5px 0px" }}>Answered {moment(ans.answredOn).fromNow()}</p>
                                     <Link to={`/user/${question.userId}`} className="user-link" style={{ color: "#0086d8" }} >
                                         <Avater
                                             backgroundColor="green"

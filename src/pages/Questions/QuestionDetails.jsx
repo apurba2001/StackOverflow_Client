@@ -1,37 +1,48 @@
-import { Link, useParams, useNavigate } from "react-router-dom"
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux'
+import { useState } from "react"
+import moment from 'moment'
+import copy from 'copy-to-clipboard'
+
 import down from "../../assets/down.png"
 import up from "../../assets/up.png"
 import './Questions.css'
 import Avater from "../../components/avater/Avater"
 import DisplayAnswers from "./DisplayAnswers"
-import { useState } from "react"
 import { postAnswer } from "../../actions/question"
+
 
 const QuestionDetails = () => {
 
     var questionsList = useSelector(state => state.questionReducer)
-    
+
     const { id } = useParams()
     const navigate = useNavigate()
     const user = useSelector((state) => state.currectUserReducer)
     const [answer, setAnswer] = useState('')
     const dispatch = useDispatch()
 
-    const handlePostAns = (e, answerLen) =>{
-        console.log('user->',user)
+    const handlePostAns = (e, answerLen) => {
+        console.log('user->', user)
         e.preventDefault()
-        if(!user){
+        if (!user) {
             alert('Login or signup to answer a question')
             navigate('/auth')
-        }else{
-            if(!answer){
+        } else {
+            if (!answer) {
                 alert('Enter an answer before submitting')
-            }else{
+            } else {
                 dispatch(postAnswer({ id, answerBody: answer, userAnswred: user?._doc?.name, userId: user?._doc?._id }))
             }
         }
     }
+    const location = useLocation()
+    const url = 'http://localhost:3000'
+    const handleShare = () => {
+        copy(url + location.pathname)
+        alert('Copied url: ' + url + location.pathname)
+    }
+
     return (
         <div className="question-details-page">
             {
@@ -59,12 +70,12 @@ const QuestionDetails = () => {
                                                     }
                                                 </div>
                                                 <div className="question-actions-user">
-                                                    <button type="button">Share</button>
+                                                    <button type="button" onClick={handleShare}>Share</button>
                                                     <button type="button">Delete</button>
                                                 </div>
                                                 <div className="asked-on-container">
                                                     <div>
-                                                        <p>asked {question.askedOn}</p>
+                                                        <p>Asked {moment(question.askedOn).fromNow()}</p>
                                                         <Link to={`/user/${question.userId}`} className="user-link" style={{ color: "#0086d8", margin: "5px 0px" }} >
                                                             <Avater
 
@@ -76,7 +87,7 @@ const QuestionDetails = () => {
                                                             >
                                                                 {question.userPosted.charAt(0).toUpperCase()}
                                                             </Avater>
-                                                            <p style={{margin:"5px"}}>{question.userPosted}</p>
+                                                            <p style={{ margin: "5px" }}>{question.userPosted}</p>
                                                         </Link>
                                                     </div>
                                                 </div>
@@ -87,14 +98,14 @@ const QuestionDetails = () => {
                                         question.answer.length && (
                                             <section>
                                                 <h3 style={{ fontSize: "15px", margin: "10px 0px" }}>{question.answer.length} Answer{question.answer.length === 1 ? '' : 's'}</h3>
-                                                <DisplayAnswers key={question._id} question={question} />
+                                                <DisplayAnswers key={question._id} question={question} handleShare={handleShare} />
                                             </section>
                                         )
                                     }
                                     <section className="post-ans-container">
                                         <h3 style={{ fontSize: "15px", padding: "10px" }}>Your Answer</h3>
                                         <form onSubmit={(e) => handlePostAns(e)}>
-                                            <textarea name="" id="" cols="30" rows="10" onChange={(e)=> setAnswer(e.target.value)}></textarea><br />
+                                            <textarea name="" id="" cols="30" rows="10" onChange={(e) => setAnswer(e.target.value)}></textarea><br />
                                             <input type="submit" className="post-ans-btn" value='Post Your Answer' />
                                         </form>
                                         <p>
@@ -105,7 +116,7 @@ const QuestionDetails = () => {
                                                         {tag}
                                                     </Link>
                                                 ))
-                                            }or 
+                                            }or
                                             <Link to='/askquestion' style={{ textDecoration: "none", color: "#009dff", margin: "3px" }}>
                                                 Ask your own question
                                             </Link>

@@ -35,7 +35,7 @@ const Navbar = () => {
                         <>
                             <Link to="/user" style={{ textDecoration: "none" }}>
                                 <Avater
-                                    backgroundColor="green"
+                                    backgroundColor="#0096FF"
                                     borderRadius="50%"
                                     textAlign="center"
                                     type='nav'
