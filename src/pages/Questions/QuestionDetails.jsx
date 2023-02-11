@@ -9,7 +9,7 @@ import up from "../../assets/up.png"
 import './Questions.css'
 import Avater from "../../components/avater/Avater"
 import DisplayAnswers from "./DisplayAnswers"
-import { postAnswer, deleteQuestion } from "../../actions/question"
+import { postAnswer, deleteQuestion, voteQuestion } from "../../actions/question"
 
 
 const QuestionDetails = () => {
@@ -46,7 +46,12 @@ const QuestionDetails = () => {
     const handleDelete = () =>{
         dispatch(deleteQuestion(id, navigate))
     }
-
+    const handleUpVote = () => {
+        dispatch(voteQuestion(id, 'upvote', user?._doc?._id))
+    }
+    const handleDownVote = () => {
+        dispatch(voteQuestion(id, 'downvote', user?._doc?._id))
+    }
     return (
         <div className="question-details-page">
             {
@@ -60,9 +65,9 @@ const QuestionDetails = () => {
                                         <h1 style={{ fontSize: '21px', paddingBottom: "10px" }}>{question.questionTitle}</h1>
                                         <div className="question-details-container-2">
                                             <div className="question-votes">
-                                                <img src={up} alt="" width='18' />
-                                                <p >{question.upVote.length - question.downVote.length}</p>
-                                                <img src={down} alt="" width='18' />
+                                                <img src={up} alt="" width='18' onClick={handleUpVote} style={{cursor: 'pointer'}}/>
+                                                <p >{question?.upVote?.length - question?.downVote?.length}</p>
+                                                <img src={down} alt="" width='18' onClick={handleDownVote} style={{ cursor: 'pointer' }} />
                                             </div>
                                             <div style={{ width: "100%" }}>
                                                 <p className="question-body">{question.questionBody}</p>
