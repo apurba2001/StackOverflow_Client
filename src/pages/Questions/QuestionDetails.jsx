@@ -9,7 +9,7 @@ import up from "../../assets/up.png"
 import './Questions.css'
 import Avater from "../../components/avater/Avater"
 import DisplayAnswers from "./DisplayAnswers"
-import { postAnswer } from "../../actions/question"
+import { postAnswer, deleteQuestion } from "../../actions/question"
 
 
 const QuestionDetails = () => {
@@ -23,7 +23,6 @@ const QuestionDetails = () => {
     const dispatch = useDispatch()
 
     const handlePostAns = (e, answerLen) => {
-        console.log('user->', user)
         e.preventDefault()
         if (!user) {
             alert('Login or signup to answer a question')
@@ -38,9 +37,14 @@ const QuestionDetails = () => {
     }
     const location = useLocation()
     const url = 'http://localhost:3000'
+
     const handleShare = () => {
         copy(url + location.pathname)
         alert('Copied url: ' + url + location.pathname)
+    }
+
+    const handleDelete = () =>{
+        dispatch(deleteQuestion(id, navigate))
     }
 
     return (
@@ -71,7 +75,7 @@ const QuestionDetails = () => {
                                                 </div>
                                                 <div className="question-actions-user">
                                                     <button type="button" onClick={handleShare}>Share</button>
-                                                    <button type="button">Delete</button>
+                                                    {user?._doc?._id === question.userId && <button type="button" onClick={handleDelete}>Delete</button>}
                                                 </div>
                                                 <div className="asked-on-container">
                                                     <div>
@@ -95,7 +99,7 @@ const QuestionDetails = () => {
                                         </div>
                                     </section>
                                     {
-                                        question.answer.length && (
+                                        question?.answer?.length > 0 && (
                                             <section>
                                                 <h3 style={{ fontSize: "15px", margin: "10px 0px" }}>{question.answer.length} Answer{question.answer.length === 1 ? '' : 's'}</h3>
                                                 <DisplayAnswers key={question._id} question={question} handleShare={handleShare} />

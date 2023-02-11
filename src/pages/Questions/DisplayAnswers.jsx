@@ -1,10 +1,21 @@
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import moment from 'moment'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Avater from "../../components/avater/Avater"
 import './Questions.css'
+import { deleteAnswer } from "../../actions/question"
 
 const DisplayAnswers = ({ question, handleShare }) => {
+
+    const user = useSelector((state) => state.currectUserReducer)
+    const dispatch = useDispatch()
+    const { id } = useParams()
+
+    const handleDelete = (ansId) => {
+        console.log(ansId)
+        dispatch(deleteAnswer(id, ansId))
+    }
 
     return (
         <div>
@@ -15,7 +26,7 @@ const DisplayAnswers = ({ question, handleShare }) => {
                         <div className="question-actions-user">
                             <div style={{display: "flex"}}>
                                 <button type="button" onClick={handleShare}>Share</button>
-                                <button type="button" >Delete</button>
+                                {user?._doc?._id === ans.userId && <button type="button" onClick={ () => handleDelete(ans?._id)}>Delete</button>}
                             </div>
                             <div className="answred-page">
                                 <div>

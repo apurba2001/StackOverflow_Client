@@ -30,3 +30,22 @@ export const postAnswer = (answerData) => async (dispatch) => {
         console.log(err)
     }
 }
+
+export const deleteQuestion = (id, navigate) => async (dispatch) => {
+    try {
+        const { data } = await api.deleteQuestion(id)
+        dispatch(fetchQuestions())
+        navigate('/')
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const deleteAnswer = (id, answerId) => async (dispatch) => {
+    try {
+        const { data } = await api.deleteAnswer(id, answerId)
+        dispatch(fetchQuestions())
+    } catch (err) {
+        console.log(err)
+    }
+}

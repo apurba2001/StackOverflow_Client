@@ -16,7 +16,8 @@ const AskQuestion = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        dispatch(askQuestion({ questionTitle, questionBody, questionTags, userPosted: user?._doc?.name ?? 'Unknown user' }, navigate))
+        dispatch(askQuestion({ questionTitle, questionBody, questionTags, userPosted: user?._doc?.name ?? 'Unknown user', userId: user?._doc?._id }, navigate))
+        
     }
 
     const handleEnter = (event) =>{
