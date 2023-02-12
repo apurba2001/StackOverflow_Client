@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const SERVER = 'https://stack-overflow-clone-7mrq.onrender.com' 
-const LOCAL = 'http://localhost:5000'
+// const LOCAL = 'http://localhost:5000'
 const API = axios.create({ baseURL: SERVER })
 
 export const login = (authData) => API.post('/user/login', authData)
