@@ -1,18 +1,35 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import decode from 'jwt-decode'
+
 import "./Navbar.css"
 import Avater from "../avater/Avater"
-import { useSelector, useDispatch } from 'react-redux'
 import navlogo from "../../assets/logo-stackoverflow.png"
 import search from "../../assets/search.svg"
-import { useEffect } from 'react'
 import { setCurrentUser } from '../../actions/currentUser'
+
 
 const Navbar = () => {
 
     var user = useSelector((state) => state.currectUserReducer)
-    const dispatch = useDispatch() 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    useEffect(()=>{
+    const handleLogout = () => {
+        dispatch({ type: 'LOGOUT' })
+        navigate('/')
+        dispatch(setCurrentUser(null))
+    }
+
+    useEffect(() => {
+        const token = user?.token
+        if (token) {
+            const decodedToken = decode(token)
+            if (decodedToken.exp * 1000 < new Date().getTime()) {
+                handleLogout()
+            }
+        }
         dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
     }, [dispatch])
 
@@ -42,7 +59,7 @@ const Navbar = () => {
                                     fontSize='20px'
                                 >{user?._doc?.name.charAt(0).toUpperCase()}</Avater>
                             </Link>
-                            <Link ><button className="nav-item nav-links">Logout</button></Link>
+                            <Link ><button className="nav-item nav-links" onClick={handleLogout}>Logout</button></Link>
                         </>
                 }
             </div>

@@ -1,8 +1,19 @@
 import axios from 'axios'
 
-const SERVER = 'https://stack-overflow-clone-7mrq.onrender.com' 
-// const LOCAL = 'http://localhost:5000'
-const API = axios.create({ baseURL: SERVER })
+const API = axios.create({ baseURL: 'http://localhost:5000' })
+
+API.interceptors.request.use((req) => {
+    const profile = JSON.parse(localStorage.getItem('Profile'));
+    if (profile && profile.token) {
+        if (!req.headers.authorization) {
+            req.headers.authorization = `Bearer ${profile.token}`;
+        }
+    }
+    return req;
+}, (error) => {
+    return Promise.reject(error);
+});
+
 
 export const login = (authData) => API.post('/user/login', authData)
 export const signup = (authData) => API.post('/user/signup', authData)

@@ -3,7 +3,7 @@ const Avater = ({ children, py, px, color, backgroundColor, borderRadius, fontSi
     if(type === 'nav'){
         size = '30px'
     } else if (type === 'question'){
-        
+
     }
 
     const style = {
